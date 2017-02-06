@@ -38,12 +38,12 @@
 	</dependencies>
 
 	<build>
-		<finalName>hazelcast-server</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>**/*.sh</include>
+					<include>**/*.xml</include>
 					<include>**/*.properties</include>
 				</includes>
 			</resource>
@@ -66,6 +66,8 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
+					<finalName>hazelcast-server</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
 					<archive>
 						<manifest>
 							<mainClass>com.genband.util.hazelcastserver.HazelcastServer</mainClass>
@@ -103,5 +105,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>hazelcast-server</finalName>
 	</build>
 </project>
