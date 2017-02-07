@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    component: hazelcast-server
+    roles: server
+  name: hazelcast-server
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        component: hazelcast-server
+        roles: server
+#      annotations:
+#        pod.beta.kubernetes.io/hostname: rabbit-server
+    spec:
+#      restartPolicy: Never
+      containers:
+      - image: 172.28.250.14:5001/privateusagehub/hazelcast-server
+        name: hazelcast-server
+        ports:
+        - containerPort: 5701
+        env:
+        - name: NAMESPACE
+          value: default
+        - name: SERVICE_NAME
+          value: mobile-push-replicat-dataset
+        - name: SERVICE_LABEL_NAME
+          value: dataset
+        - name: SERVICE_LABEL_VALUE
+          value: hazelcast-server
+        resources:
+          limits:
+            cpu: 2
+            memory: 300Mi
+          requests:
+            cpu: 2

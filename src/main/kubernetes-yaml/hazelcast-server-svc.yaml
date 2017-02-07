@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mobile-push-replicat-dataset
+  labels:
+    dataset: hazelcast-server
+spec:
+  ports:
+  - port: 5701
+    protocol: TCP
+    targetPort: 5701
+    name: hazelcast-clustering-port
+  type: ClusterIP
+  selector:
+    component: hazelcast-server
