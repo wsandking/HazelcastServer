@@ -17,7 +17,7 @@ spec:
     spec:
 #      restartPolicy: Never
       containers:
-      - image: 172.28.250.14:5001/privateusagehub/hazelcast-server
+      - image: 172.28.250.14:5001/wrtc-app/hazelcast-server
         name: hazelcast-server
         ports:
         - containerPort: 5701

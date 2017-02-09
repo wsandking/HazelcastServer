@@ -3,7 +3,7 @@ package com.genband.util.hazelcastserver.config;
 import java.io.InputStream;
 
 import org.apache.log4j.Logger;
- 
+
 import com.hazelcast.config.Config;
 import com.hazelcast.config.DiscoveryStrategyConfig;
 import com.hazelcast.config.XmlConfigBuilder;
@@ -35,18 +35,17 @@ public class HazelcastServerConfig {
           .equals(dsc.getClassName())) {
 
         log.info("Initialize kubernetes hazelcast server. ");
-
         /**
          * Load system level properties
          */
         if (null != System.getenv("NAMESPACE")) {
           dsc.addProperty("namespace", System.getenv("NAMESPACE"));
         }
-        
+
         if (null != System.getenv("SERVICE_NAME")) {
           dsc.addProperty("service-name", System.getenv("SERVICE_NAME"));
         }
-        
+
         if (null != System.getenv("SERVICE_LABEL_NAME")) {
           dsc.addProperty("service-label-name", System.getenv("SERVICE_LABEL_NAME"));
         }
@@ -54,7 +53,7 @@ public class HazelcastServerConfig {
         if (null != System.getenv("SERVICE_LABEL_VALUE")) {
           dsc.addProperty("service-label-value", System.getenv("SERVICE_LABEL_VALUE"));
         }
-        
+
       }
 
     }
@@ -67,8 +66,8 @@ public class HazelcastServerConfig {
 
     InputStream in = this.getClass().getClassLoader().getResourceAsStream("hazelcast.xml");
     cfg = new XmlConfigBuilder(in).build();
-
     loadProperties(cfg);
+    log.info("Hazelcast configuration file: " + cfg.toString());
 
     return cfg;
 
