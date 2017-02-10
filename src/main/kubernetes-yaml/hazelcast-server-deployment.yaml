@@ -30,9 +30,9 @@ spec:
           value: dataset
         - name: SERVICE_LABEL_VALUE
           value: hazelcast-server
-        resources:
-          limits:
-            cpu: 2
-            memory: 300Mi
-          requests:
-            cpu: 2
+#        resources:
+#          limits:
+#            cpu: 2
+#            memory: 300Mi
+#          requests:
+#            cpu: 2
