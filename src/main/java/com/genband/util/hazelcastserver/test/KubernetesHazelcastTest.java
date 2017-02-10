@@ -14,7 +14,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.hazelcast.config.NetworkConfig;
- 
+
 import com.hazelcast.nio.Address;
 import com.hazelcast.spi.discovery.DiscoveryNode;
 import com.hazelcast.spi.discovery.SimpleDiscoveryNode;
@@ -39,7 +39,7 @@ public class KubernetesHazelcastTest {
 
   public KubernetesHazelcastTest() {
 
-    this.serviceName = "";
+    this.serviceName = "mobile-push-replicat-dataset";
     this.namespace = "default";
 
     init();
@@ -47,22 +47,22 @@ public class KubernetesHazelcastTest {
   }
 
   private void init() {
-    
+
     try {
-      
+
       String accountToken = getAccountToken();
       log.info("Kubernetes Discovery: Bearer Token { " + accountToken + " }");
       Config config = new ConfigBuilder().withOauthToken(accountToken).build();
       this.client = new DefaultKubernetesClient(config);
       log.error("Initialization finished... ");
-      
+
     } catch (Exception e) {
-      
+
       log.error("cannot load anything... Halt");
       e.printStackTrace();
-      
+
     }
-  
+
   }
 
   public List<DiscoveryNode> resolve() {
@@ -123,7 +123,9 @@ public class KubernetesHazelcastTest {
       byte[] data = new byte[(int) file.length()];
       InputStream is = new FileInputStream(file);
       is.read(data);
-      return new String(data);
+      String strData = new String(data);
+      is.close();
+      return strData;
 
     } catch (IOException e) {
       throw new RuntimeException("Could not get token file", e);
