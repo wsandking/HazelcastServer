@@ -4,6 +4,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import com.genband.util.hazelcastserver.config.HazelcastServerConfig;
+import com.genband.util.hazelcastserver.test.KubernetesHazelcastTest;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 
@@ -21,7 +22,11 @@ public class HazelcastServer {
   public static void main(String args[]) {
 
     BasicConfigurator.configure();
-
+    KubernetesHazelcastTest test = new KubernetesHazelcastTest();
+    
+    log.info("Resolve result:   " + test.resolve());
+    
+    
     HazelcastInstance instance =
         Hazelcast.newHazelcastInstance(new HazelcastServerConfig().composeConfiguration());
 
