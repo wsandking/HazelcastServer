@@ -38,21 +38,21 @@ public class HazelcastServerConfig {
         /**
          * Load system level properties
          */
-        if (null != System.getenv("NAMESPACE")) {
-          dsc.addProperty("namespace", System.getenv("NAMESPACE"));
-        }
-
-        if (null != System.getenv("SERVICE_NAME")) {
-          dsc.addProperty("service-name", System.getenv("SERVICE_NAME"));
-        }
-
-        if (null != System.getenv("SERVICE_LABEL_NAME")) {
-          dsc.addProperty("service-label-name", System.getenv("SERVICE_LABEL_NAME"));
-        }
-
-        if (null != System.getenv("SERVICE_LABEL_VALUE")) {
-          dsc.addProperty("service-label-value", System.getenv("SERVICE_LABEL_VALUE"));
-        }
+        // if (null != System.getenv("NAMESPACE")) {
+        // dsc.addProperty("namespace", System.getenv("NAMESPACE"));
+        // }
+        //
+        // if (null != System.getenv("SERVICE_NAME")) {
+        // dsc.addProperty("service-name", System.getenv("SERVICE_NAME"));
+        // }
+        //
+        // if (null != System.getenv("SERVICE_LABEL_NAME")) {
+        // dsc.addProperty("service-label-name", System.getenv("SERVICE_LABEL_NAME"));
+        // }
+        //
+        // if (null != System.getenv("SERVICE_LABEL_VALUE")) {
+        // dsc.addProperty("service-label-value", System.getenv("SERVICE_LABEL_VALUE"));
+        // }
 
       }
 
@@ -67,6 +67,8 @@ public class HazelcastServerConfig {
     InputStream in = this.getClass().getClassLoader().getResourceAsStream("hazelcast.xml");
     cfg = new XmlConfigBuilder(in).build();
     loadProperties(cfg);
+
+    log.info(cfg.toString());
 
     return cfg;
 
