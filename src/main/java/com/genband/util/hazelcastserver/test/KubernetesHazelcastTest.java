@@ -69,9 +69,6 @@ public class KubernetesHazelcastTest {
 
   public List<DiscoveryNode> resolve() {
 
-    log.info(String.format("Service discovery part %s ",
-        client.services().inNamespace(namespace).list().toString()));
-
     List<DiscoveryNode> result = Collections.emptyList();
     if (serviceName != null && !serviceName.isEmpty()) {
       result = getSimpleDiscoveryNodes(

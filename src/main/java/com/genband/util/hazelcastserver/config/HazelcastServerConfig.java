@@ -67,7 +67,6 @@ public class HazelcastServerConfig {
     InputStream in = this.getClass().getClassLoader().getResourceAsStream("hazelcast.xml");
     cfg = new XmlConfigBuilder(in).build();
     loadProperties(cfg);
-    log.info("Hazelcast configuration file: " + cfg.toString());
 
     return cfg;
 
