@@ -48,13 +48,11 @@ public class KubernetesHazelcastTest {
 
   private void init() {
 
+    String accountToken = null;
+
     try {
 
-      String accountToken = getAccountToken();
-      log.info("Kubernetes Discovery: Bearer Token { " + accountToken + " }");
-      Config config = new ConfigBuilder().withOauthToken(accountToken).build();
-      this.client = new DefaultKubernetesClient(config);
-      log.error("Initialization finished... ");
+      accountToken = getAccountToken();
 
     } catch (Exception e) {
 
@@ -62,13 +60,17 @@ public class KubernetesHazelcastTest {
       e.printStackTrace();
 
     }
+    log.info("Kubernetes Discovery: Bearer Token { " + accountToken + " }");
+    Config config = new ConfigBuilder().withOauthToken(accountToken).build();
+    this.client = new DefaultKubernetesClient(config);
+    log.info("Initialization finished... ");
 
   }
 
   public List<DiscoveryNode> resolve() {
 
     log.info(String.format("Service discovery part %s ",
-        client.services().inNamespace(namespace).withName(serviceName)));
+        client.services().inNamespace(namespace).list().toString()));
 
     List<DiscoveryNode> result = Collections.emptyList();
     if (serviceName != null && !serviceName.isEmpty()) {
