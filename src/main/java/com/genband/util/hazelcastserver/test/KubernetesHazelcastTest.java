@@ -85,7 +85,7 @@ public class KubernetesHazelcastTest {
         for (EndpointSubset endpointSubset : endpoints.getSubsets()) {
             for (EndpointAddress endpointAddress : endpointSubset.getAddresses()) {
 
-                log.info(String.format("Discover enpoint: ", endpointAddress.toString()));
+                log.info(String.format("Discover enpoint: %s ", endpointAddress.toString()));
 
                 Map<String, Object> properties = endpointAddress.getAdditionalProperties();
                 String ip = endpointAddress.getIp();

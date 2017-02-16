@@ -36,7 +36,7 @@
 					class="com.noctarius.hazelcast.kubernetes.HazelcastKubernetesDiscoveryStrategy">
 					<properties>
 						<property name="service-name">mobile-push-replicat-dataset</property>
-						<property name="service-label-name">dataset</property>
+						<property name="namespace">default</property>
 
 						<!--<property name="service-dns">mobile-push-replicat-dataset</property> 
 							<property name="service-dns-timeout">10</property> -->
