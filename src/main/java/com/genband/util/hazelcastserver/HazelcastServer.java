@@ -24,7 +24,7 @@ public class HazelcastServer {
         BasicConfigurator.configure();
         KubernetesHazelcastTest test = new KubernetesHazelcastTest();
 
-        log.info("Resolve result: \n " + test.resolve());
+        test.resolve();
 
         HazelcastInstance instance = Hazelcast.newHazelcastInstance(new HazelcastServerConfig().composeConfiguration());
 
