@@ -27,107 +27,108 @@ import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
 
-
-
 public class KubernetesHazelcastTest {
 
-  private final String serviceName;
-  private final String namespace;
-  private KubernetesClient client;
+    private final String serviceName;
+    private final String namespace;
+    private KubernetesClient client;
 
-  private static Logger log = Logger.getLogger(KubernetesHazelcastTest.class.getName());
+    private static Logger log = Logger.getLogger(KubernetesHazelcastTest.class.getName());
 
-  public KubernetesHazelcastTest() {
+    public KubernetesHazelcastTest() {
 
-    this.serviceName = "mobile-push-replicat-dataset";
-    this.namespace = "default";
+        this.serviceName = "mobile-push-replicat-dataset";
+        this.namespace = "default";
 
-    init();
-
-  }
-
-  private void init() {
-
-    String accountToken = null;
-
-    try {
-
-      accountToken = getAccountToken();
-
-    } catch (Exception e) {
-
-      log.error("cannot load anything... Halt");
-      e.printStackTrace();
+        init();
 
     }
-    log.info("Kubernetes Discovery: Bearer Token { " + accountToken + " }");
-    Config config = new ConfigBuilder().withOauthToken(accountToken).build();
-    this.client = new DefaultKubernetesClient(config);
-    log.info("Initialization finished... ");
 
-  }
+    private void init() {
 
-  public List<DiscoveryNode> resolve() {
+        String accountToken = null;
 
-    List<DiscoveryNode> result = Collections.emptyList();
-    if (serviceName != null && !serviceName.isEmpty()) {
-      result = getSimpleDiscoveryNodes(
-          client.endpoints().inNamespace(namespace).withName(serviceName).get());
+        try {
+
+            accountToken = getAccountToken();
+
+        } catch (Exception e) {
+
+            log.error("cannot load anything... Halt");
+            e.printStackTrace();
+
+        }
+        log.info("Kubernetes Discovery: Bearer Token { " + accountToken + " }");
+        Config config = new ConfigBuilder().withOauthToken(accountToken).build();
+        this.client = new DefaultKubernetesClient(config);
+        log.info("Initialization finished... ");
+
     }
 
-    return result;
-  }
+    public List<DiscoveryNode> resolve() {
 
+        List<DiscoveryNode> result = Collections.emptyList();
+        if (serviceName != null && !serviceName.isEmpty()) {
 
-  private List<DiscoveryNode> getSimpleDiscoveryNodes(Endpoints endpoints) {
-    if (endpoints == null) {
-      return Collections.emptyList();
+            result = getSimpleDiscoveryNodes(client.endpoints().inNamespace(namespace).withName(serviceName).get());
+
+        }
+
+        return result;
     }
-    List<DiscoveryNode> discoveredNodes = new ArrayList<DiscoveryNode>();
-    for (EndpointSubset endpointSubset : endpoints.getSubsets()) {
-      for (EndpointAddress endpointAddress : endpointSubset.getAddresses()) {
-        Map<String, Object> properties = endpointAddress.getAdditionalProperties();
-        String ip = endpointAddress.getIp();
-        InetAddress inetAddress = mapAddress(ip);
-        int port = getServicePort(properties);
-        Address address = new Address(inetAddress, port);
-        discoveredNodes.add(new SimpleDiscoveryNode(address, properties));
-      }
+
+    private List<DiscoveryNode> getSimpleDiscoveryNodes(Endpoints endpoints) {
+        if (endpoints == null) {
+            return Collections.emptyList();
+        }
+        List<DiscoveryNode> discoveredNodes = new ArrayList<DiscoveryNode>();
+        for (EndpointSubset endpointSubset : endpoints.getSubsets()) {
+            for (EndpointAddress endpointAddress : endpointSubset.getAddresses()) {
+
+                log.info(String.format("Discover enpoint: ", endpointAddress.toString()));
+
+                Map<String, Object> properties = endpointAddress.getAdditionalProperties();
+                String ip = endpointAddress.getIp();
+                InetAddress inetAddress = mapAddress(ip);
+                int port = getServicePort(properties);
+                Address address = new Address(inetAddress, port);
+                discoveredNodes.add(new SimpleDiscoveryNode(address, properties));
+
+            }
+        }
+        return discoveredNodes;
     }
-    return discoveredNodes;
-  }
 
-  protected InetAddress mapAddress(String address) {
-    if (address == null) {
-      return null;
+    protected InetAddress mapAddress(String address) {
+        if (address == null) {
+            return null;
+        }
+        try {
+            return InetAddress.getByName(address);
+        } catch (UnknownHostException e) {
+            log.warn("Address '" + address + "' could not be resolved");
+        }
+        return null;
     }
-    try {
-      return InetAddress.getByName(address);
-    } catch (UnknownHostException e) {
-      log.warn("Address '" + address + "' could not be resolved");
+
+    protected int getServicePort(Map<String, Object> properties) {
+        int port = NetworkConfig.DEFAULT_PORT;
+        return port;
     }
-    return null;
-  }
 
+    private String getAccountToken() {
+        try {
+            String tokenFile = "/var/run/secrets/kubernetes.io/serviceaccount/token";
+            File file = new File(tokenFile);
+            byte[] data = new byte[(int) file.length()];
+            InputStream is = new FileInputStream(file);
+            is.read(data);
+            String strData = new String(data);
+            is.close();
+            return strData;
 
-  protected int getServicePort(Map<String, Object> properties) {
-    int port = NetworkConfig.DEFAULT_PORT;
-    return port;
-  }
-
-  private String getAccountToken() {
-    try {
-      String tokenFile = "/var/run/secrets/kubernetes.io/serviceaccount/token";
-      File file = new File(tokenFile);
-      byte[] data = new byte[(int) file.length()];
-      InputStream is = new FileInputStream(file);
-      is.read(data);
-      String strData = new String(data);
-      is.close();
-      return strData;
-
-    } catch (IOException e) {
-      throw new RuntimeException("Could not get token file", e);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not get token file", e);
+        }
     }
-  }
 }

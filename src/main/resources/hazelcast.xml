@@ -35,11 +35,11 @@
 				<discovery-strategy enabled="true"
 					class="com.noctarius.hazelcast.kubernetes.HazelcastKubernetesDiscoveryStrategy">
 					<properties>
-						<!-- <property name="service-name">mobile-push-replicat-dataset</property> 
-							<property name="service-label-name">dataset</property> <property name="service-label-value">hazelcast-server</property> 
-							<property name="namespace">default</property> -->
-						<property name="service-dns">mobile-push-replicat-dataset</property>
-						<property name="service-dns-timeout">10</property>
+						<property name="service-name">mobile-push-replicat-dataset</property>
+						<property name="service-label-name">dataset</property>
+
+						<!--<property name="service-dns">mobile-push-replicat-dataset</property> 
+							<property name="service-dns-timeout">10</property> -->
 					</properties>
 				</discovery-strategy>
 			</discovery-strategies>

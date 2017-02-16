@@ -16,62 +16,53 @@ import com.hazelcast.config.XmlConfigBuilder;
  */
 public class HazelcastServerConfig {
 
-  private static Logger log = Logger.getLogger(HazelcastServerConfig.class.getName());
+    private static Logger log = Logger.getLogger(HazelcastServerConfig.class.getName());
 
-  /**
-   * Load it from environment variable
-   * 
-   * @param cfg
-   */
-  private void loadProperties(Config cfg) {
+    /**
+     * Load it from environment variable
+     * 
+     * @param cfg
+     */
+    private void loadProperties(Config cfg) {
 
-    for (DiscoveryStrategyConfig dsc : cfg.getNetworkConfig().getJoin().getDiscoveryConfig()
-        .getDiscoveryStrategyConfigs()) {
+        for (DiscoveryStrategyConfig dsc : cfg.getNetworkConfig().getJoin().getDiscoveryConfig()
+                .getDiscoveryStrategyConfigs()) {
 
-      /**
-       * Part 1: cluster discovery through service
-       */
-      if ("com.noctarius.hazelcast.kubernetes.HazelcastKubernetesDiscoveryStrategy"
-          .equals(dsc.getClassName())) {
+            /**
+             * Part 1: cluster discovery through service
+             */
+            if ("com.noctarius.hazelcast.kubernetes.HazelcastKubernetesDiscoveryStrategy".equals(dsc.getClassName())) {
 
-        log.info("Initialize kubernetes hazelcast server. ");
-        /**
-         * Load system level properties
-         */
-        // if (null != System.getenv("NAMESPACE")) {
-        // dsc.addProperty("namespace", System.getenv("NAMESPACE"));
-        // }
-        //
-        // if (null != System.getenv("SERVICE_NAME")) {
-        // dsc.addProperty("service-name", System.getenv("SERVICE_NAME"));
-        // }
-        //
-        // if (null != System.getenv("SERVICE_LABEL_NAME")) {
-        // dsc.addProperty("service-label-name", System.getenv("SERVICE_LABEL_NAME"));
-        // }
-        //
-        // if (null != System.getenv("SERVICE_LABEL_VALUE")) {
-        // dsc.addProperty("service-label-value", System.getenv("SERVICE_LABEL_VALUE"));
-        // }
+                log.info("Initialize kubernetes hazelcast server. ");
+                /**
+                 * Load system level properties
+                 */
+                if (null != System.getenv("NAMESPACE")) {
+                    dsc.addProperty("namespace", System.getenv("NAMESPACE"));
+                }
 
-      }
+                if (null != System.getenv("SERVICE_NAME")) {
+                    dsc.addProperty("service-name", System.getenv("SERVICE_NAME"));
+                }
+
+            }
+
+        }
 
     }
 
-  }
+    public Config composeConfiguration() {
 
-  public Config composeConfiguration() {
+        Config cfg = null;
 
-    Config cfg = null;
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream("hazelcast.xml");
+        cfg = new XmlConfigBuilder(in).build();
+        loadProperties(cfg);
 
-    InputStream in = this.getClass().getClassLoader().getResourceAsStream("hazelcast.xml");
-    cfg = new XmlConfigBuilder(in).build();
-    loadProperties(cfg);
+        log.info(cfg.toString());
 
-    log.info(cfg.toString());
+        return cfg;
 
-    return cfg;
-
-  }
+    }
 
 }
