@@ -28,7 +28,7 @@
 			
 			<discovery-strategies>
 				<discovery-strategy enabled="true"
-					class="com.hazelcast.kubernetes.HazelcastKubernetesDiscoveryStrategy">
+					class="com.noctarius.hazelcast.kubernetes.HazelcastKubernetesDiscoveryStrategy">
 					<properties>
 						<property name="service-name">mobile-push-replicat-dataset</property>
 						<property name="namespace">default</property>

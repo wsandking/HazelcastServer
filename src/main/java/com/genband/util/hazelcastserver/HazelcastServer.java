@@ -22,9 +22,9 @@ public class HazelcastServer {
     public static void main(String args[]) {
 
         BasicConfigurator.configure();
-        KubernetesHazelcastTest test = new KubernetesHazelcastTest();
 
-        test.resolve();
+        // KubernetesHazelcastTest test = new KubernetesHazelcastTest();
+        // test.resolve();
 
         HazelcastInstance instance = Hazelcast.newHazelcastInstance(new HazelcastServerConfig().composeConfiguration());
 
