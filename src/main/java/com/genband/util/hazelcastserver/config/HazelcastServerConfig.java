@@ -31,7 +31,7 @@ public class HazelcastServerConfig {
             /**
              * Part 1: cluster discovery through service
              */
-            if ("com.noctarius.hazelcast.kubernetes.HazelcastKubernetesDiscoveryStrategy".equals(dsc.getClassName())) {
+            if ("com.hazelcast.kubernetes.HazelcastKubernetesDiscoveryStrategy".equals(dsc.getClassName())) {
 
                 log.info("Initialize kubernetes hazelcast server. ");
                 /**
