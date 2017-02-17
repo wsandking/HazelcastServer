@@ -1,7 +1,6 @@
 package com.genband.util.hazelcastserver.config;
 
 import java.io.InputStream;
-
 import org.apache.log4j.Logger;
 
 import com.hazelcast.config.Config;
@@ -38,11 +37,17 @@ public class HazelcastServerConfig {
                  * Load system level properties
                  */
                 if (null != System.getenv("NAMESPACE")) {
+
                     dsc.addProperty("namespace", System.getenv("NAMESPACE"));
+                    log.info("Properties namespace: " + System.getenv("NAMESPACE"));
+
                 }
 
                 if (null != System.getenv("SERVICE_NAME")) {
+
                     dsc.addProperty("service-name", System.getenv("SERVICE_NAME"));
+                    log.info("Properties service-name: " + System.getenv("SERVICE_NAME"));
+
                 }
 
             }
@@ -54,11 +59,10 @@ public class HazelcastServerConfig {
     public Config composeConfiguration() {
 
         Config cfg = null;
-
+        cfg = new Config();
         InputStream in = this.getClass().getClassLoader().getResourceAsStream("hazelcast.xml");
         cfg = new XmlConfigBuilder(in).build();
         loadProperties(cfg);
-
         log.info(cfg.toString());
 
         return cfg;

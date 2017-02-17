@@ -1,10 +1,8 @@
 package com.genband.util.hazelcastserver;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import com.genband.util.hazelcastserver.config.HazelcastServerConfig;
-import com.genband.util.hazelcastserver.test.KubernetesHazelcastTest;
 // import com.genband.util.hazelcastserver.test.KubernetesHazelcastTest;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
@@ -21,13 +19,10 @@ public class HazelcastServer {
 
     public static void main(String args[]) {
 
-        BasicConfigurator.configure();
-
-        // KubernetesHazelcastTest test = new KubernetesHazelcastTest();
-        // test.resolve();
-
         HazelcastInstance instance = Hazelcast.newHazelcastInstance(new HazelcastServerConfig().composeConfiguration());
 
+        // HazelcastInstance instance = Hazelcast.newHazelcastInstance();
+        
         /*
          * Testing code, will be removed when things got stable Map<String, String> theMap = instance.getMap("TempMap");
          * theMap.put("haha", "notveryhaha"); log.info(String.format("%s : %s", "haha", theMap.get("haha"))); try {

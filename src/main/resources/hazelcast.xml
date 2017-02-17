@@ -5,9 +5,11 @@
 	<properties>
 		<!-- only necessary prior Hazelcast 3.8 -->
 		<property name="hazelcast.discovery.enabled">true</property>
+		<property name="hazelcast.logging.type">log4j</property>
 	</properties>
 
 	<map name="MobilePushEventMap">
+		<in-memory-format>OBJECT</in-memory-format>
 		<time-to-live-seconds>35</time-to-live-seconds>
 		<max-idle-seconds>0</max-idle-seconds>
 		<eviction-policy>LRU</eviction-policy>
@@ -22,10 +24,10 @@
 			<ports>0</ports>
 		</outbound-ports>
 		<join>
-		
+
 			<multicast enabled="false" />
 			<tcp-ip enabled="false" />
-			
+
 			<discovery-strategies>
 				<discovery-strategy enabled="true"
 					class="com.noctarius.hazelcast.kubernetes.HazelcastKubernetesDiscoveryStrategy">
