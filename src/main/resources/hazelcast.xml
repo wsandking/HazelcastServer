@@ -5,7 +5,7 @@
 	<properties>
 		<!-- only necessary prior Hazelcast 3.8 -->
 		<property name="hazelcast.discovery.enabled">true</property>
-		<property name="hazelcast.logging.type">log4j</property>
+		<property name="hazelcast.logging.type">jdk</property>
 	</properties>
 
 	<map name="MobilePushEventMap">
