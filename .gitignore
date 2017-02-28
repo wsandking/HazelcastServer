@@ -1,8 +1,1 @@
-target/
-.classpath
-.project
-.springBeans
-/bin/
-applogs/
-.settings/
- 
+/target/
