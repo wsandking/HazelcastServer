@@ -26,10 +26,8 @@ spec:
           value: default
         - name: SERVICE_NAME
           value: mobile-push-replicat-dataset
-        - name: SERVICE_LABEL_NAME
-          value: dataset
-        - name: SERVICE_LABEL_VALUE
-          value: hazelcast-server
+        - name: MAP_TIME_TO_LIVE
+          value: 35
 #        resources:
 #          limits:
 #            cpu: 2

@@ -2,6 +2,11 @@
 	xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.7.xsd"
 	xmlns="http://www.hazelcast.com/schema/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+	<group>
+		<name>dev</name>
+		<password>dev-pass</password>
+	</group>
+
 	<properties>
 		<!-- only necessary prior Hazelcast 3.8 -->
 		<property name="hazelcast.discovery.enabled">true</property>
@@ -9,9 +14,10 @@
 	</properties>
 
 	<map name="MobilePushEventMap">
+		<backup-count>1</backup-count>
 		<in-memory-format>OBJECT</in-memory-format>
-		<time-to-live-seconds>35</time-to-live-seconds>
-		<max-idle-seconds>0</max-idle-seconds>
+		<time-to-live-seconds>3500</time-to-live-seconds>
+		<max-idle-seconds>3</max-idle-seconds>
 		<eviction-policy>LRU</eviction-policy>
 		<max-size policy="PER_NODE">5000</max-size>
 		<eviction-percentage>25</eviction-percentage>
@@ -24,7 +30,6 @@
 			<ports>0</ports>
 		</outbound-ports>
 		<join>
-
 			<multicast enabled="false" />
 			<tcp-ip enabled="false" />
 
