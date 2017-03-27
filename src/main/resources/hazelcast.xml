@@ -13,7 +13,7 @@
 		<property name="hazelcast.logging.type">jdk</property>
 	</properties>
 
-	<map name="MobilePushEventMap">
+	<map name="default">
 		<backup-count>1</backup-count>
 		<in-memory-format>OBJECT</in-memory-format>
 		<time-to-live-seconds>3500</time-to-live-seconds>
@@ -32,7 +32,6 @@
 		<join>
 			<multicast enabled="false" />
 			<tcp-ip enabled="false" />
-
 			<discovery-strategies>
 				<discovery-strategy enabled="true"
 					class="com.noctarius.hazelcast.kubernetes.HazelcastKubernetesDiscoveryStrategy">
